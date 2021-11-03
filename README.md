@@ -98,3 +98,44 @@ embulk run /home/docker/<tableName>.yaml
 ex) embulk run /home/docker/person.yaml
 ```
 
+## 2. Database Backup & Restore
+Database 별 Export, Import 명령어 모음입니다. 
+  
+  
+### 2-1. Postgresql
+Postgresql 서버의 터미널에서 수행
+```bash
+pg_dump --dbname=<dbname> -p <port> --username=<id> --format=t --blobs --verbose -f <cdmname>.dump
+ex) pg_dump --dbname=samplecdm -p 5432 --username=user --format=t --blobs --verbose -f samplecdm.dump 
+pg_restore -v -d <database_name> --username=<id> <dumpfile_name>.dump
+ex) pg_restore -v -d samplecdm --username=user samplecdm.dump
+```
+  
+## 3. Database DDL Update
+Embulk로 table을 이관할 때 DDL을 먼저 만들어 놓고 이관하는 방법과, 옮기고 DDL을 업데이트 하는 방법이 있습니다.
+먼저 DDL을 만들어 놓고 이관하면 DBMS 데이터 타입 차이로 인해 데이터가 잘릴 수 있기 때문에 먼저 이관 뒤 DDL을 수정 합니다.
+
+- ddl update 파일 세팅
+- 이기종 DB에 맞게 CDM 테이블의 DDL을 변환하기 위해 R로 스크립트를 작성하였으며 경로는 아래와 같습니다.
+```
+vim cdmMigration/modifyDdl/mssqlToPostgresql/alterColumnDataType.R
+```
+##### alterColumnDataType.R
+```R
+# setwd('') # alterColumnDataType.R 파일이 있는 경로 ex) ./cdmMigration/modifyDdl/mssqlToPostgresql/alterColumnDataType.R
+  
+##input#################
+cdmSchema = '' # CDM DB의 Schema 이름 ex) cdm
+cdmVersion = '' # 이관한 CDM의 버전 ex) v5.3.1 / v5.3.0
+########################
+```
+위 정보를 입력한 뒤 스크립트 전체를 실행해주면, console 창에 변환 쿼리가 생성 됩니다.
+복사 붙여넣기 해서 Query 창에 실행하면 CDM DDL 변경이 완료 됩니다.
+
+## 4. CDM 마무리 작업
+  
+* Indexes, Constraints 작업
+  - https://github.com/ohdsi/CommonDataModel/
+  
+* AChilles 작업
+  - https://github.com/ohdsi/achilles
