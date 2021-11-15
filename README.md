@@ -30,8 +30,8 @@ systemctl status docker
 ## 1. Embulk
 
 ### Embulk ?
-- Embulk은 다양한 스토리지, 데이터베이스, NoSQL 및 클라우드 서비스 간의 데이터 전송을 돕는 병렬 벌크 데이터 로더입니다.  
-- Embulk은 기능을 추가하기위한 플러그인을 지원합니다.  
+- Embulk는 다양한 스토리지, 데이터베이스, NoSQL 및 클라우드 서비스 간의 데이터 전송을 돕는 병렬 벌크 데이터 로더입니다.  
+- Embulk 기능을 추가하기위한 플러그인을 지원합니다.  
 - 플러그인을 공유하여 사용자 지정 스크립트를 읽고 유지 관리하고 재사용 할 수 있도록 유지할 수 있습니다.
 - DSL(Domain Specific Language)를 활용, DB를 이관하기 위한 yaml 파일 포맷으로 세팅 후 embulk run 명령어로 이관 합니다. 
 
